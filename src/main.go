@@ -18,6 +18,9 @@ func main() {
 
 	// Artists Routes
 	routes.GetAllArtists()
+	routes.GetArtistById()
+
+	// Relation Routes
 	routes.GetAllRelation()
 	routes.GetRelationById()
 
