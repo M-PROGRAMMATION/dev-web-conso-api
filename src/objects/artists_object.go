@@ -8,7 +8,7 @@ type Artist struct {
 	FirstAlbum   string   `json:"firstAlbum"`
 }
 
-var artists = []Artist{
+var AllArtists = []Artist{
 	{ID: 1, Name: "Aurore Nomade", CreationDate: 2017,
 		Members: []string{"Lina", "Nora", "Sami"}, FirstAlbum: "12-05-2019"},
 }
