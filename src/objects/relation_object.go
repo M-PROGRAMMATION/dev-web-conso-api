@@ -9,10 +9,10 @@ type RelationIndex struct {
 	Index []Relation `json:"index"`
 }
 
-var relations = RelationIndex{
+var AllRelations = RelationIndex{
 	Index: []Relation{
 		{
-			ID: 1, // même ID que l'artiste concerné
+			ID: 1,
 			DatesLocations: map[string][]string{
 				"toulouse-france": {"14-03-2025", "15-03-2025"},
 				"lyon-france":     {"02-04-2025"},

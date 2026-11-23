@@ -11,3 +11,9 @@ func GetAllArtists() {
 		utils.WriteJSON(w, objects.AllArtists)
 	})
 }
+
+func GetAllRelation() {
+	http.HandleFunc("GET /relation", func(w http.ResponseWriter, r *http.Request) {
+		utils.WriteJSON(w, objects.AllRelations)
+	})
+}

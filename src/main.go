@@ -18,6 +18,7 @@ func main() {
 
 	// Artists Routes
 	routes.GetAllArtists()
+	routes.GetAllRelation()
 
 	banner.PrintBanner(addr)
 	log.Fatal(http.ListenAndServe(addr, nil))
