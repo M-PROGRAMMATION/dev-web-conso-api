@@ -1,6 +1,7 @@
 package main
 
 import (
+	"dev-web-conso-apii/src/banner"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -8,6 +9,8 @@ import (
 )
 
 func main() {
+	addr := ":8080"
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/" {
 			http.NotFound(w, r)
@@ -20,6 +23,11 @@ func main() {
 
 	http.HandleFunc("/artists", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
+
+		if r.URL.Path != "/artists" {
+			http.NotFound(w, r)
+			return
+		}
 
 		response := struct {
 			ID           int      `json:"id"`
@@ -38,6 +46,6 @@ func main() {
 		json.NewEncoder(w).Encode(response)
 	})
 
-	log.Println("Server running on :8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	banner.PrintBanner(addr)
+	log.Fatal(http.ListenAndServe(addr, nil))
 }
