@@ -19,5 +19,13 @@ var AllRelations = RelationIndex{
 				"paris-france":    {"20-05-2025"},
 			},
 		},
+		{
+			ID: 2,
+			DatesLocations: map[string][]string{
+				"sqdqsd-qsdd": {"14-03-2125", "15-03-2025"},
+				"sd-sd":       {"02-04-2525"},
+				"dd-ddd":      {"20-05-2225"},
+			},
+		},
 	},
 }
