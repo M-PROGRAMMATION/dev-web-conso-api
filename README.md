@@ -18,13 +18,15 @@ dev-web-conso-apii/
 ├── data/
 │   ├── artists.json     # Persistance JSON des artistes
 │   └── relations.json   # Persistance JSON des relations
+├── resources/
+│   └── index.html        # Template HTML de la page d'accueil (liste des artistes + recherche)
 └── src/
     ├── main.go          # Point d'entrée, déclaration des routes HTTP
     ├── orm/
     │   └── orm.go        # Mini ORM générique (store JSON : All/Find/Create/Update/Delete/Where)
     ├── routes/
     │   ├── init.go       # Initialisation des stores + enregistrement des routes
-    │   ├── default.go    # Route racine "/"
+    │   ├── default.go    # Route racine "/" (page d'accueil HTML)
     │   ├── health.go     # Route "/health"
     │   ├── artists.go    # Routes "/artists"
     │   └── relation.go   # Routes "/relation"
@@ -33,6 +35,7 @@ dev-web-conso-apii/
     │   └── relation_object.go
     └── utils/
         ├── json.go       # Helpers d'écriture JSON
+        ├── template.go   # Chargement/rendu des templates HTML (resources/)
         ├── banner.go     # Affichage d'une bannière stylisée au démarrage du serveur
         └── store.go      # Déclaration et seed des stores (ArtistStore, RelationStore)
 ```
@@ -62,9 +65,10 @@ swag init -g src/main.go -o docs
 
 | Méthode | Route             | Description                                      |
 |---------|-------------------|---------------------------------------------------|
-| GET     | `/`               | Healthcheck simple, retourne `OK`                  |
+| GET     | `/`               | Page d'accueil HTML : liste des artistes + recherche |
 | GET     | `/health`         | Statut du serveur, heure de démarrage et uptime    |
 | GET     | `/artists`        | Retourne les artistes au format JSON               |
+| GET     | `/artists/{id}`   | Retourne un artiste par son id                     |
 | GET     | `/relation`       | Retourne toutes les relations (dates/lieux)        |
 | GET     | `/relation/{id}`  | Retourne une relation par son id                   |
 
