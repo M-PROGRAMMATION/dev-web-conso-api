@@ -1,26 +1,39 @@
 package routes
 
 import (
-	"fmt"
+	"dev-web-conso-apii/src/utils"
+	"log"
 	"net/http"
 )
 
 // DefaultRoute godoc
 //
-//	@Summary	Healthcheck simple
+//	@Summary	Page d'accueil
+//	@Description	Affiche la liste des artistes avec une barre de recherche
 //	@Tags		default
-//	@Produce	plain
-//	@Success	200	{string}	string	"OK"
+//	@Produce	html
+//	@Success	200	{string}	string	"page HTML"
 //	@Router		/ [get]
 func DefaultRoute() {
+	templates, err := utils.LoadTemplates("resources/index.html")
+	if err != nil {
+		log.Fatalf("failed to load templates: %v", err)
+	}
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/" {
 			http.NotFound(w, r)
 			return
 		}
 
-		w.Header().Set("Content-Type", "text/plain")
-		fmt.Fprint(w, "OK")
-	})
+		artists, err := utils.ArtistStore.All()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 
+		if err := templates.Render(w, "index.html", artists); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	})
 }
