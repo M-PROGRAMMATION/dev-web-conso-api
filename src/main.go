@@ -1,8 +1,8 @@
 package main
 
 import (
-	"dev-web-conso-apii/src/banner"
 	"dev-web-conso-apii/src/routes"
+	"dev-web-conso-apii/src/utils"
 	"log"
 	"net/http"
 	"time"
@@ -24,6 +24,6 @@ func main() {
 	routes.GetAllRelation()
 	routes.GetRelationById()
 
-	banner.PrintBanner(addr)
+	utils.PrintBanner(addr)
 	log.Fatal(http.ListenAndServe(addr, nil))
 }
