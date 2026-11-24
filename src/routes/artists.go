@@ -1,15 +1,21 @@
 package routes
 
 import (
-	"dev-web-conso-apii/src/objects"
+	"dev-web-conso-apii/src/orm"
 	"dev-web-conso-apii/src/utils"
+	"errors"
 	"net/http"
 	"strconv"
 )
 
 func GetAllArtists() {
 	http.HandleFunc("/artists", func(w http.ResponseWriter, r *http.Request) {
-		utils.WriteJSON(w, objects.AllArtists)
+		artists, err := utils.ArtistStore.All()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		utils.WriteJSON(w, artists)
 	})
 }
 
@@ -20,12 +26,17 @@ func GetArtistById() {
 			http.Error(w, "id invalide", http.StatusBadRequest)
 			return
 		}
-		for _, a := range objects.AllArtists {
-			if a.ID == id {
-				utils.WriteJSON(w, a)
-				return
-			}
+
+		artist, err := utils.ArtistStore.Find(id)
+		if errors.Is(err, orm.ErrNotFound) {
+			http.NotFound(w, r)
+			return
 		}
-		http.NotFound(w, r)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		utils.WriteJSON(w, artist)
 	})
 }

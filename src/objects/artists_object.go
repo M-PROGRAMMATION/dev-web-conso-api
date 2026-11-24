@@ -8,7 +8,11 @@ type Artist struct {
 	FirstAlbum   string   `json:"firstAlbum"`
 }
 
-var AllArtists = []Artist{
+func (a Artist) GetID() int {
+	return a.ID
+}
+
+var SeedArtists = []Artist{
 	{ID: 1, Name: "Aurore Nomade", CreationDate: 2017,
 		Members: []string{"Lina", "Nora", "Sami"}, FirstAlbum: "12-05-2019"},
 }
