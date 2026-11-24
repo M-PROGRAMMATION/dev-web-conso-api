@@ -15,20 +15,26 @@ API REST en Go développée dans le cadre du cours **Développement Web / Consom
 dev-web-conso-apii/
 ├── go.mod              # Déclaration du module et version de Go
 ├── README.md
+├── data/
+│   ├── artists.json     # Persistance JSON des artistes
+│   └── relations.json   # Persistance JSON des relations
 └── src/
     ├── main.go          # Point d'entrée, déclaration des routes HTTP
-    ├── banner/
-    │   └── banner.go    # Affichage d'une bannière stylisée au démarrage du serveur
+    ├── orm/
+    │   └── orm.go        # Mini ORM générique (store JSON : All/Find/Create/Update/Delete/Where)
     ├── routes/
-    │   ├── default.go   # Route racine "/"
-    │   ├── health.go    # Route "/health"
-    │   ├── artists.go   # Routes "/artists"
-    │   └── relation.go  # Routes "/relation"
+    │   ├── init.go       # Initialisation des stores + enregistrement des routes
+    │   ├── default.go    # Route racine "/"
+    │   ├── health.go     # Route "/health"
+    │   ├── artists.go    # Routes "/artists"
+    │   └── relation.go   # Routes "/relation"
     ├── objects/
     │   ├── artists_object.go
     │   └── relation_object.go
     └── utils/
-        └── json.go      # Helpers d'écriture JSON
+        ├── json.go       # Helpers d'écriture JSON
+        ├── banner.go     # Affichage d'une bannière stylisée au démarrage du serveur
+        └── store.go      # Déclaration et seed des stores (ArtistStore, RelationStore)
 ```
 
 ## 🚀 Lancer le projet
