@@ -7,7 +7,7 @@ API REST en Go développée dans le cadre du cours **Développement Web / Consom
 ## 🛠️ Stack technique
 
 - **Langage :** [Go](https://go.dev/) 1.27
-- **Librairies :** uniquement la bibliothèque standard (`net/http`, `encoding/json`)
+- **Librairies :** la bibliothèque standard (`net/http`, `encoding/json`) pour l'API, et [`swaggo/swag`](https://github.com/swaggo/swag) + [`swaggo/http-swagger`](https://github.com/swaggo/http-swagger) pour la doc Swagger
 
 ## 📁 Structure du projet
 
@@ -44,6 +44,19 @@ go run ./src
 ```
 
 Le serveur démarre par défaut sur `http://localhost:8080`.
+
+## 📖 Documentation Swagger
+
+La doc interactive est générée automatiquement depuis des commentaires (`swag`) placés au-dessus de chaque handler, puis servie via `swaggo/http-swagger`.
+
+```bash
+go install github.com/swaggo/swag/cmd/swag@latest
+swag init -g src/main.go -o docs
+```
+
+À relancer après chaque ajout/modif de route (les fichiers `docs/` sont générés, à ne pas éditer à la main). Une fois le serveur lancé :
+
+👉 http://localhost:8080/swagger/index.html
 
 ## 📡 Routes disponibles
 

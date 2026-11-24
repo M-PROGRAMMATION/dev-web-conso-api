@@ -2,7 +2,10 @@ package routes
 
 import (
 	"dev-web-conso-apii/src/utils"
+	"net/http"
 	"time"
+
+	httpSwagger "github.com/swaggo/http-swagger/v2"
 )
 
 func InitRoutes(startTime time.Time) {
@@ -11,6 +14,9 @@ func InitRoutes(startTime time.Time) {
 	// Default Routes
 	DefaultRoute()
 	HealthRoute(startTime)
+
+	// Swagger UI
+	http.HandleFunc("/swagger/", httpSwagger.WrapHandler)
 
 	// Artists Routes
 	GetAllArtists()

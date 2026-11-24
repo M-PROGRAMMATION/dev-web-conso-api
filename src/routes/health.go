@@ -6,6 +6,14 @@ import (
 	"time"
 )
 
+// HealthRoute godoc
+//
+//	@Summary	Statut du serveur
+//	@Description	Retourne l'heure de démarrage et l'uptime du serveur
+//	@Tags		default
+//	@Produce	plain
+//	@Success	200	{string}	string	"Health: OK"
+//	@Router		/health [get]
 func HealthRoute(startTime time.Time) {
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/health" {

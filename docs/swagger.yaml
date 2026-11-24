@@ -1,0 +1,163 @@
+basePath: /
+definitions:
+  objects.Artist:
+    properties:
+      creationDate:
+        type: integer
+      firstAlbum:
+        type: string
+      id:
+        type: integer
+      members:
+        items:
+          type: string
+        type: array
+      name:
+        type: string
+    type: object
+  objects.Relation:
+    properties:
+      datesLocations:
+        additionalProperties:
+          items:
+            type: string
+          type: array
+        type: object
+      id:
+        type: integer
+    type: object
+  objects.RelationIndex:
+    properties:
+      index:
+        items:
+          $ref: '#/definitions/objects.Relation'
+        type: array
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API REST en Go développée dans le cadre du cours Développement Web
+    / Consommation d'API (YNOV).
+  title: Dev Web Conso API
+  version: "1.0"
+paths:
+  /:
+    get:
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Healthcheck simple
+      tags:
+      - default
+  /artists:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/objects.Artist'
+            type: array
+        "500":
+          description: erreur serveur
+          schema:
+            type: string
+      summary: Liste des artistes
+      tags:
+      - artists
+  /artists/{id}:
+    get:
+      parameters:
+      - description: ID de l'artiste
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/objects.Artist'
+        "400":
+          description: id invalide
+          schema:
+            type: string
+        "404":
+          description: artiste introuvable
+          schema:
+            type: string
+        "500":
+          description: erreur serveur
+          schema:
+            type: string
+      summary: Récupère un artiste par son id
+      tags:
+      - artists
+  /health:
+    get:
+      description: Retourne l'heure de démarrage et l'uptime du serveur
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: 'Health: OK'
+          schema:
+            type: string
+      summary: Statut du serveur
+      tags:
+      - default
+  /relation:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/objects.RelationIndex'
+        "500":
+          description: erreur serveur
+          schema:
+            type: string
+      summary: Liste de toutes les relations (dates/lieux)
+      tags:
+      - relation
+  /relation/{id}:
+    get:
+      parameters:
+      - description: ID de la relation
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/objects.Relation'
+        "400":
+          description: id invalide
+          schema:
+            type: string
+        "404":
+          description: relation introuvable
+          schema:
+            type: string
+        "500":
+          description: erreur serveur
+          schema:
+            type: string
+      summary: Récupère une relation par son id
+      tags:
+      - relation
+swagger: "2.0"

@@ -9,6 +9,14 @@ import (
 	"net/http"
 )
 
+// GetAllRelation godoc
+//
+//	@Summary	Liste de toutes les relations (dates/lieux)
+//	@Tags		relation
+//	@Produce	json
+//	@Success	200	{object}	objects.RelationIndex
+//	@Failure	500	{string}	string	"erreur serveur"
+//	@Router		/relation [get]
 func GetAllRelation() {
 	http.HandleFunc("GET /relation", func(w http.ResponseWriter, r *http.Request) {
 		relations, err := utils.RelationStore.All()
@@ -20,6 +28,17 @@ func GetAllRelation() {
 	})
 }
 
+// GetRelationById godoc
+//
+//	@Summary	Récupère une relation par son id
+//	@Tags		relation
+//	@Produce	json
+//	@Param		id	path		int	true	"ID de la relation"
+//	@Success	200	{object}	objects.Relation
+//	@Failure	400	{string}	string	"id invalide"
+//	@Failure	404	{string}	string	"relation introuvable"
+//	@Failure	500	{string}	string	"erreur serveur"
+//	@Router		/relation/{id} [get]
 func GetRelationById() {
 	http.HandleFunc("GET /relation/{id}", func(w http.ResponseWriter, r *http.Request) {
 		var id int
