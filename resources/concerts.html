@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concerts — Groupie Trackers</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f1e9dc;
+            color: #3a332b;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 3rem 1.5rem;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 720px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            padding: 2.5rem;
+        }
+
+        .back {
+            display: inline-block;
+            color: #8a8077;
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.4rem;
+        }
+
+        header p {
+            color: #8a8077;
+        }
+
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        form input {
+            padding: 0.6rem 1rem;
+            border-radius: 999px;
+            border: 1px solid #e3d9c8;
+            outline: none;
+            font-size: 0.9rem;
+            background: #f1e9dc;
+            color: #3a332b;
+        }
+
+        form button {
+            padding: 0.6rem 1.4rem;
+            border-radius: 999px;
+            border: none;
+            background: #c7a97a;
+            color: #ffffff;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        #count {
+            text-align: center;
+            color: #a89d8f;
+            margin-bottom: 1.25rem;
+            font-size: 0.9rem;
+        }
+
+        .concerts {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .concerts li {
+            background: #f1e9dc;
+            border-radius: 12px;
+            padding: 0.8rem 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            font-size: 0.9rem;
+        }
+
+        .concerts a {
+            color: #3a332b;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .concerts .place {
+            color: #6b6258;
+        }
+
+        .concerts .date {
+            color: #8a8077;
+        }
+
+        .empty {
+            text-align: center;
+            color: #a89d8f;
+            padding: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <a class="back" href="/">&larr; Retour à la liste des artistes</a>
+
+        <header>
+            <h1>Concerts à venir</h1>
+            <p>Tous les concerts, triés par date</p>
+        </header>
+
+        <form method="get" action="/concerts">
+            <input type="text" name="city" placeholder="Ville" value="{{.City}}">
+            <input type="date" name="from" value="{{.From}}">
+            <input type="date" name="to" value="{{.To}}">
+            <button type="submit">Filtrer</button>
+        </form>
+
+        <p id="count">{{len .Events}} concert(s)</p>
+
+        {{if .Events}}
+        <ul class="concerts">
+            {{range .Events}}
+            <li>
+                <a href="/artist/{{.ArtistID}}">{{.ArtistName}}</a>
+                <span class="place">{{.City}}, {{.Country}}</span>
+                <span class="date">{{.Date.Format "02/01/2006"}}</span>
+            </li>
+            {{end}}
+        </ul>
+        {{else}}
+        <p class="empty">Aucun concert ne correspond à ces critères.</p>
+        {{end}}
+    </div>
+</body>
+</html>

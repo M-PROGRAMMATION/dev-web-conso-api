@@ -77,11 +77,20 @@
         }
 
         .card {
+            display: block;
             background: #f1e9dc;
             border-radius: 16px;
             padding: 1.4rem;
             text-align: center;
+            color: inherit;
+            text-decoration: none;
             transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .concerts-link {
+            color: #c7a97a;
+            font-weight: 600;
+            text-decoration: none;
         }
 
         .card:hover {
@@ -134,13 +143,14 @@
             <h1>🎤 Groupie Trackers</h1>
             <p>Retrouvez tous les artistes et groupes suivis par l'API</p>
             <input type="search" id="search" placeholder="Rechercher un artiste ou un membre...">
+            <a class="concerts-link" href="/concerts">Voir tous les concerts &rarr;</a>
         </header>
 
         <p id="count">{{len .}} artiste(s)</p>
 
         <div class="grid" id="grid">
             {{range .}}
-            <article class="card" data-name="{{.Name}}" data-members="{{range $i, $m := .Members}}{{if $i}},{{end}}{{$m}}{{end}}">
+            <a class="card" href="/artist/{{.ID}}" data-name="{{.Name}}" data-members="{{range $i, $m := .Members}}{{if $i}},{{end}}{{$m}}{{end}}">
                 <div class="avatar">{{slice .Name 0 1}}</div>
                 <h2>{{.Name}}</h2>
                 <p class="meta">Créé en {{.CreationDate}}</p>
@@ -148,7 +158,7 @@
                 <p class="members">
                     {{range $i, $m := .Members}}{{if $i}}, {{end}}{{$m}}{{end}}
                 </p>
-            </article>
+            </a>
             {{end}}
         </div>
 

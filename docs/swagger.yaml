@@ -15,6 +15,19 @@ definitions:
       name:
         type: string
     type: object
+  objects.Event:
+    properties:
+      artistId:
+        type: integer
+      artistName:
+        type: string
+      city:
+        type: string
+      country:
+        type: string
+      date:
+        type: string
+    type: object
   objects.Relation:
     properties:
       datesLocations:
@@ -33,6 +46,17 @@ definitions:
           $ref: '#/definitions/objects.Relation'
         type: array
     type: object
+  objects.Stats:
+    properties:
+      eventsByCity:
+        additionalProperties:
+          type: integer
+        type: object
+      totalArtists:
+        type: integer
+      totalEvents:
+        type: integer
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -43,14 +67,91 @@ info:
 paths:
   /:
     get:
+      description: Affiche la liste des artistes avec une barre de recherche
       produces:
-      - text/plain
+      - text/html
+      responses:
+        "200":
+          description: page HTML
+          schema:
+            type: string
+      summary: Page d'accueil
+      tags:
+      - default
+  /api/events:
+    get:
+      parameters:
+      - description: Filtre par ville
+        in: query
+        name: city
+        type: string
+      - description: Date de début (AAAA-MM-JJ)
+        in: query
+        name: from
+        type: string
+      - description: Date de fin (AAAA-MM-JJ)
+        in: query
+        name: to
+        type: string
+      produces:
+      - application/json
       responses:
         "200":
           description: OK
           schema:
+            items:
+              $ref: '#/definitions/objects.Event'
+            type: array
+        "400":
+          description: paramètre invalide
+          schema:
             type: string
-      summary: Healthcheck simple
+        "500":
+          description: erreur serveur
+          schema:
+            type: string
+      summary: Liste des concerts, triés par date et filtrables par ville / intervalle
+        de dates
+      tags:
+      - events
+  /api/stats:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/objects.Stats'
+        "500":
+          description: erreur serveur
+          schema:
+            type: string
+      summary: Statistiques globales (nombre d'artistes, de concerts, répartition
+        par ville)
+      tags:
+      - stats
+  /artist/{id}:
+    get:
+      description: Affiche les informations d'un artiste et la liste de ses concerts
+      parameters:
+      - description: ID de l'artiste
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - text/html
+      responses:
+        "200":
+          description: page HTML
+          schema:
+            type: string
+        "404":
+          description: artiste introuvable
+          schema:
+            type: string
+      summary: Page détaillée d'un artiste
       tags:
       - default
   /artists:
@@ -101,6 +202,33 @@ paths:
       summary: Récupère un artiste par son id
       tags:
       - artists
+  /concerts:
+    get:
+      description: Affiche tous les concerts, triés par date, filtrables par ville
+        et intervalle de dates
+      parameters:
+      - description: Filtre par ville
+        in: query
+        name: city
+        type: string
+      - description: Date de début (AAAA-MM-JJ)
+        in: query
+        name: from
+        type: string
+      - description: Date de fin (AAAA-MM-JJ)
+        in: query
+        name: to
+        type: string
+      produces:
+      - text/html
+      responses:
+        "200":
+          description: page HTML
+          schema:
+            type: string
+      summary: Liste des concerts
+      tags:
+      - default
   /health:
     get:
       description: Retourne l'heure de démarrage et l'uptime du serveur

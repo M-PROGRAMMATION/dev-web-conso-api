@@ -14,6 +14,8 @@ func InitRoutes(startTime time.Time) {
 	// Default Routes
 	DefaultRoute()
 	HealthRoute(startTime)
+	ArtistPageRoute()
+	ConcertsRoute()
 
 	// Swagger UI
 	http.HandleFunc("/swagger/", httpSwagger.WrapHandler)
@@ -25,4 +27,8 @@ func InitRoutes(startTime time.Time) {
 	// Relation Routes
 	GetAllRelation()
 	GetRelationById()
+
+	// Events & Stats Routes
+	GetEvents()
+	GetStats()
 }

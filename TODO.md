@@ -11,13 +11,13 @@
 - [x] Jointure artistes et relations
 - [x] Structure Event
 - [x] Normalisation des dates
-- [ ] Tri chronologique
-- [ ] Filtrage par ville
-- [ ] Filtrage par intervalle de dates
-- [ ] Page détaillée d'un artiste
-- [ ] Liste des concerts
-- [ ] Route /api/events
-- [ ] Route /api/stats
+- [x] Tri chronologique
+- [x] Filtrage par ville
+- [x] Filtrage par intervalle de dates
+- [x] Page détaillée d'un artiste
+- [x] Liste des concerts
+- [x] Route /api/events
+- [x] Route /api/stats
 - [ ] Géolocalisation
 - [ ] Carte interactive
 - [ ] Graphique de répartition

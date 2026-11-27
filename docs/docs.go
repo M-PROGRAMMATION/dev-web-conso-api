@@ -17,16 +17,131 @@ const docTemplate = `{
     "paths": {
         "/": {
             "get": {
+                "description": "Affiche la liste des artistes avec une barre de recherche",
                 "produces": [
-                    "text/plain"
+                    "text/html"
                 ],
                 "tags": [
                     "default"
                 ],
-                "summary": "Healthcheck simple",
+                "summary": "Page d'accueil",
+                "responses": {
+                    "200": {
+                        "description": "page HTML",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/events": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "events"
+                ],
+                "summary": "Liste des concerts, triés par date et filtrables par ville / intervalle de dates",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filtre par ville",
+                        "name": "city",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Date de début (AAAA-MM-JJ)",
+                        "name": "from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Date de fin (AAAA-MM-JJ)",
+                        "name": "to",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/objects.Event"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "paramètre invalide",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "erreur serveur",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/stats": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "stats"
+                ],
+                "summary": "Statistiques globales (nombre d'artistes, de concerts, répartition par ville)",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/objects.Stats"
+                        }
+                    },
+                    "500": {
+                        "description": "erreur serveur",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/artist/{id}": {
+            "get": {
+                "description": "Affiche les informations d'un artiste et la liste de ses concerts",
+                "produces": [
+                    "text/html"
+                ],
+                "tags": [
+                    "default"
+                ],
+                "summary": "Page détaillée d'un artiste",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID de l'artiste",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "page HTML",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "artiste introuvable",
                         "schema": {
                             "type": "string"
                         }
@@ -101,6 +216,46 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "erreur serveur",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/concerts": {
+            "get": {
+                "description": "Affiche tous les concerts, triés par date, filtrables par ville et intervalle de dates",
+                "produces": [
+                    "text/html"
+                ],
+                "tags": [
+                    "default"
+                ],
+                "summary": "Liste des concerts",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filtre par ville",
+                        "name": "city",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Date de début (AAAA-MM-JJ)",
+                        "name": "from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Date de fin (AAAA-MM-JJ)",
+                        "name": "to",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "page HTML",
                         "schema": {
                             "type": "string"
                         }
@@ -224,6 +379,26 @@ const docTemplate = `{
                 }
             }
         },
+        "objects.Event": {
+            "type": "object",
+            "properties": {
+                "artistId": {
+                    "type": "integer"
+                },
+                "artistName": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                }
+            }
+        },
         "objects.Relation": {
             "type": "object",
             "properties": {
@@ -249,6 +424,23 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/objects.Relation"
                     }
+                }
+            }
+        },
+        "objects.Stats": {
+            "type": "object",
+            "properties": {
+                "eventsByCity": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "integer"
+                    }
+                },
+                "totalArtists": {
+                    "type": "integer"
+                },
+                "totalEvents": {
+                    "type": "integer"
                 }
             }
         }

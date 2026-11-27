@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Artist.Name}} — Groupie Trackers</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f1e9dc;
+            color: #3a332b;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 3rem 1.5rem;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 720px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            padding: 2.5rem;
+        }
+
+        .back {
+            display: inline-block;
+            color: #8a8077;
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+        }
+
+        header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .avatar {
+            width: 72px;
+            height: 72px;
+            margin-bottom: 0.6rem;
+            border-radius: 50%;
+            background: #c7a97a;
+            color: #ffffff;
+            font-size: 1.6rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+        }
+
+        header p {
+            color: #8a8077;
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        .concerts {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .concerts li {
+            background: #f1e9dc;
+            border-radius: 12px;
+            padding: 0.8rem 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+
+        .concerts .date {
+            color: #8a8077;
+        }
+
+        .empty {
+            text-align: center;
+            color: #a89d8f;
+            padding: 1.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <a class="back" href="/">&larr; Retour à la liste des artistes</a>
+
+        <header>
+            <div class="avatar">{{slice .Artist.Name 0 1}}</div>
+            <h1>{{.Artist.Name}}</h1>
+            <p>Créé en {{.Artist.CreationDate}} &middot; Premier album : {{.Artist.FirstAlbum}}</p>
+            <p>
+                {{range $i, $m := .Artist.Members}}{{if $i}}, {{end}}{{$m}}{{end}}
+            </p>
+        </header>
+
+        <h2>Concerts ({{len .Events}})</h2>
+        {{if .Events}}
+        <ul class="concerts">
+            {{range .Events}}
+            <li>
+                <span>{{.City}}, {{.Country}}</span>
+                <span class="date">{{.Date.Format "02/01/2006"}}</span>
+            </li>
+            {{end}}
+        </ul>
+        {{else}}
+        <p class="empty">Aucun concert prévu pour cet artiste.</p>
+        {{end}}
+    </div>
+</body>
+</html>
