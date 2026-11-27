@@ -17,14 +17,16 @@ import (
 //	@Failure	500	{string}	string	"erreur serveur"
 //	@Router		/artists [get]
 func GetAllArtists() {
-	http.HandleFunc("/artists", func(w http.ResponseWriter, r *http.Request) {
-		artists, err := utils.ArtistStore.All()
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		utils.WriteJSON(w, artists)
-	})
+	http.HandleFunc("/artists", allArtistsHandler)
+}
+
+func allArtistsHandler(w http.ResponseWriter, r *http.Request) {
+	artists, err := utils.ArtistStore.All()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	utils.WriteJSON(w, artists)
 }
 
 // GetArtistById godoc
@@ -39,23 +41,25 @@ func GetAllArtists() {
 //	@Failure	500	{string}	string	"erreur serveur"
 //	@Router		/artists/{id} [get]
 func GetArtistById() {
-	http.HandleFunc("GET /artists/{id}", func(w http.ResponseWriter, r *http.Request) {
-		id, err := strconv.Atoi(r.PathValue("id"))
-		if err != nil {
-			http.Error(w, "id invalide", http.StatusBadRequest)
-			return
-		}
+	http.HandleFunc("GET /artists/{id}", artistByIdHandler)
+}
 
-		artist, err := utils.ArtistStore.Find(id)
-		if errors.Is(err, orm.ErrNotFound) {
-			http.NotFound(w, r)
-			return
-		}
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
+func artistByIdHandler(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.Atoi(r.PathValue("id"))
+	if err != nil {
+		http.Error(w, "id invalide", http.StatusBadRequest)
+		return
+	}
 
-		utils.WriteJSON(w, artist)
-	})
+	artist, err := utils.ArtistStore.Find(id)
+	if errors.Is(err, orm.ErrNotFound) {
+		http.NotFound(w, r)
+		return
+	}
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	utils.WriteJSON(w, artist)
 }

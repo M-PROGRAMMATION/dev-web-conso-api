@@ -20,7 +20,11 @@ func DefaultRoute() {
 		log.Fatalf("failed to load templates: %v", err)
 	}
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/", indexHandler(templates))
+}
+
+func indexHandler(templates *utils.Templates) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/" {
 			http.NotFound(w, r)
 			return
@@ -35,5 +39,5 @@ func DefaultRoute() {
 		if err := templates.Render(w, "index.html", artists); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
-	})
+	}
 }

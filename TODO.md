@@ -1,0 +1,25 @@
+- [ ] Serveur HTTP en Go
+- [ ] Structures Artist et Relation
+- [ ] Lecture des fichiers JSON
+- [ ] Templates HTML dynamiques
+- [ ] Liste des artistes
+- [ ] Recherche par artiste et membre
+- [ ] Gestion des résultats vides
+- [ ] CSS responsive
+- [ ] Gestion des erreurs HTTP
+- [ ] Consommation d'une API REST externe
+- [ ] Jointure artistes et relations
+- [ ] Structure Event
+- [ ] Normalisation des dates
+- [ ] Tri chronologique
+- [ ] Filtrage par ville
+- [ ] Filtrage par intervalle de dates
+- [ ] Page détaillée d'un artiste
+- [ ] Liste des concerts
+- [ ] Route /api/events
+- [ ] Route /api/stats
+- [ ] Géolocalisation
+- [ ] Carte interactive
+- [ ] Graphique de répartition
+- [ ] JavaScript
+- [x] Tests unitaires et HTTP

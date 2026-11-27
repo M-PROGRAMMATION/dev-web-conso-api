@@ -15,7 +15,11 @@ import (
 //	@Success	200	{string}	string	"Health: OK"
 //	@Router		/health [get]
 func HealthRoute(startTime time.Time) {
-	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/health", healthHandler(startTime))
+}
+
+func healthHandler(startTime time.Time) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/health" {
 			http.NotFound(w, r)
 			return
@@ -28,5 +32,5 @@ func HealthRoute(startTime time.Time) {
 			startTime.Format("02/01/2006 15:04:05"),
 			uptime,
 		)
-	})
+	}
 }
