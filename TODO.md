@@ -8,9 +8,9 @@
 - [x] CSS responsive
 - [x] Gestion des erreurs HTTP
 - [ ] Consommation d'une API REST externe
-- [ ] Jointure artistes et relations
-- [ ] Structure Event
-- [ ] Normalisation des dates
+- [x] Jointure artistes et relations
+- [x] Structure Event
+- [x] Normalisation des dates
 - [ ] Tri chronologique
 - [ ] Filtrage par ville
 - [ ] Filtrage par intervalle de dates
