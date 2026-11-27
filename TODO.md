@@ -1,12 +1,12 @@
-- [ ] Serveur HTTP en Go
-- [ ] Structures Artist et Relation
-- [ ] Lecture des fichiers JSON
-- [ ] Templates HTML dynamiques
-- [ ] Liste des artistes
-- [ ] Recherche par artiste et membre
-- [ ] Gestion des résultats vides
-- [ ] CSS responsive
-- [ ] Gestion des erreurs HTTP
+- [x] Serveur HTTP en Go
+- [x] Structures Artist et Relation
+- [x] Lecture des fichiers JSON
+- [x] Templates HTML dynamiques
+- [x] Liste des artistes
+- [x] Recherche par artiste et membre
+- [x] Gestion des résultats vides
+- [x] CSS responsive
+- [x] Gestion des erreurs HTTP
 - [ ] Consommation d'une API REST externe
 - [ ] Jointure artistes et relations
 - [ ] Structure Event
@@ -21,5 +21,5 @@
 - [ ] Géolocalisation
 - [ ] Carte interactive
 - [ ] Graphique de répartition
-- [ ] JavaScript
+- [x] JavaScript
 - [x] Tests unitaires et HTTP
